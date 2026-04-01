@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  config.yaml: |
+    project:
+      name: "Transactions"
+      codename: "Steins;Gate"
+      version: "1.0.0-Amadeus"
+
+    db:
+      host: "host.docker.internal"
+      port: 5432
+      name: "postgres"
+      user: "postgres"
+      table: "public.paysim_table"
+      target_table: "public.fraud_stats"
+
+    spark:
+      app_name: "FromKaggleToPostgresql"
+      jar_name: "postgresql-42.7.10.jar"
+      limit_rows: 100000
+      local_ip: "127.0.0.1"
+      driver_host: "127.0.0.1"
+      bind_address: "0.0.0.0"
+
+    kaggle:
+      dataset: "ealaxi/paysim1"
+
+    hwm:
+      name: "paysim_step_hwm"
+      column: "step"

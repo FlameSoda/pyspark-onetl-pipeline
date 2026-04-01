@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: spark-trans-job
+spec:
+  template:
+    spec:
+      hostNetwork: true
+      containers:
+      - name: spark-app
+        image: paysim-app:latest
+        imagePullPolicy: Never
+        env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: DB_PASSWORD
+        command: ["python", "/app/main.py"]
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config.yaml
+          subPath: config.yaml
+      volumes:
+      - name: config-volume
+        configMap:
+          name: app-config
+      restartPolicy: Never
